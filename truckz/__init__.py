@@ -25,4 +25,4 @@ app.register_blueprint(api_bp)
 #api.add_resource(Journey, '/journeys/<int: id>')
 #api.add_resource(JourneysList, '/journeys')
 
-import app.views
+import truckz.views
