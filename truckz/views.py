@@ -4,7 +4,7 @@ from flask import render_template, url_for, redirect, flash, session, request, a
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('dashboard.html')
 
 def login(user):
     error = None
@@ -49,27 +49,37 @@ def show_trucks(path):
 @app.route('/owners', defaults={'path':''}, methods=['POST', 'GET'])
 @app.route('/owners/<path:path>')
 def show_owners(path):
-    db = get_database()
-    init_database()
-    if path == '':
-        rows = db.execute('select * from owners')
-    elif path == 'login':
-        return login('owner')
+    if not session.get('logged_in'):
+        return login('owners')
     else:
-        rows = db.execute('select * from owners where owner_id=(?)', path)
-    owners = rows.fetchall()
-    return jsonify(owners)
+        db = get_database()
+        init_database()
+        if path == '':
+            rows = db.execute('select * from owners')
+        elif path == 'login':
+            return login('owner')
+        else:
+            rows = db.execute('select * from owners where owner_id=(?)', path)
+        owners = rows.fetchall()
+        return jsonify(owners)
 
 @app.route('/customers', defaults={'path':''}, methods=['POST', 'GET'])
 @app.route('/customers/<path:path>')
 def show_customers(path):
-    db = get_database()
-    init_database()
-    if path == '':
-        rows = db.execute('select * from customers')
-    elif path == 'login':
-        return login('customer')
+    if not session.get('logged_in'):
+        return login('customers')
     else:
-        rows = db.execute('select * from customers where customers_id=(?)', path)
-    customers = rows.fetchall()
-    return jsonify(customers)
+        db = get_database()
+        init_database()
+        if path == '':
+            rows = db.execute('select * from customers')
+        elif path == 'login':
+            return login('customer')
+        else:
+            rows = db.execute('select * from customers where customers_id=(?)', path)
+        customers = rows.fetchall()
+        return jsonify(customers)
+
+@app.route('/dashboard', methods=['POST', 'GET'])
+def dashboard():
+    return 'Welcome to dashboard'
