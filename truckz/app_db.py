@@ -1,29 +1,31 @@
-import sqlite3
+import os, sqlite3
 from flask import g
-from app import app
+from truckz import app
 
-class app_db:
-    def __init__(self):
-        connection = self.connect_db()
-        db = self.get_database()
+app.config.update(dict(
+    DATABASE = os.path.join(app.root_path, 'truckz.db'),
+    SECRET_KEY = 'truckz.io',
+    USERNAME='admin',
+    PASSWORD='default'
+))
 
-    def connect_db():
-        conn = sqlite3.connect(app.config['DATABASE'])
-        conn.row_factory = sqlite3.Row
-        return conn
+def connect_database():
+    conn = sqlite3.connect(app.config['DATABASE'])
+    conn.row_factory = sqlite3.Row
+    return conn
 
-    def get_database(self):
-        if not hasattr(g, 'sqlite_db'):
-            g.sqlite_db = self.connect_db()
-        return g.sqlite_db
+def get_database():
+    if not hasattr(g, 'sqlite_db'):
+        g.sqlite_db = connect_database()
+    return g.sqlite_db
 
-    @app.teardown_appcontext
-    def close_database():
-        if hasattr(g, 'sqlite_db'):
-            g.sqlite_db.close()
+@app.teardown_appcontext
+def close_database(error):
+    if hasattr(g, 'sqlite_db'):
+        g.sqlite_db.close()
 
-    def init_database(self):
-        db = self.get_database()
-        with app.open_resource('schemas.sql', mode='r') as dbFile:
-            db.cursor().executescript(dbFile.read())
-        db.commit()
+def init_database():
+    db = get_database()
+    with app.open_resource('schemas.sql', mode='r') as dbFile:
+        db.cursor().executescript(dbFile.read())
+    db.commit()
