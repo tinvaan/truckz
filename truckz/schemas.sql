@@ -15,9 +15,9 @@ create table owners (
     owner_id integer primary key autoincrement,
     owner_auth_username text not null,
     owner_auth_password text not null,
-    owner_name text not null,
-    owner_email text not null,
-    owner_contact integer not null,
+    owner_name text,
+    owner_email text,
+    owner_contact integer,
     owner_address text,
     owner_trucks integer,
     foreign key(owner_trucks) references trucks(truck_id)
@@ -28,10 +28,10 @@ create table customers (
     customer_id integer primary key autoincrement,
     customer_auth_username text not null,
     customer_auth_password text not null,
-    customer_name text not null,
-    customer_email text not null,
-    customer_contact integer not null,
-    customer_address text
+    customer_name text,
+    customer_email text,
+    customer_contact integer,
+    customer_address text,
 );
 
 drop table if exists bookings;
