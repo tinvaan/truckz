@@ -8,6 +8,7 @@
             <a href="{{url_for('show_customers')}}" method=post>Customer | </a>
             <a href="{{url_for('show_owners')}}" method=post>Owner</a>
         {% else %}
+            <a href="{{url_for('profile_view')}}" method=post">{{session.get('user_name')}}</a>
             <a href="{{url_for('logout')}}">Logout</a>
         {% endif %}
     </div>
