@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% if session.logged_in %}
+        <h2>Profile</h2>
+        <div name="content">
+            <div class=metanav name="separator"></div>
+            <input type=submit value="View Profile"></input>
+            <input type=submit value="Edit Profile"></input>
+            <div class=metanav name="separator"></div>
+        </div>
+        <h2>Journeys</h2>
+        <div name="content">
+            <div class=metanav name="separator"></div>
+            <input type=submit value="My Journeys"></input>
+            <input type=submit value="Add Journey"></input>
+            <div class=metanav name="separator"></div>
+        </div>
+        <h2>Bookings</h2>
+        <div name="content">
+            <div class=metanav name="separator"></div>
+            <input type=submit value="View Bookings"></input>
+            <input type=submit value='New Booking'></input>
+            <div class=metanav name="separator"></div>
+        </div>
+        <h2>Trucks</h2>
+        <div name="content">
+            <div class=metanav name="separator"></div>
+            <input type=submit value="View Trucks"></input>
+            <input type=submit value="Add Trucks"></input>
+            <input type=submit value="Remove Trucks"></input>
+            <div class=metanav name="separator"></div>
+        </div>
+        <!--<h3>Edit Profile</h3>
+        <form action="{{url_for('show_trucks')}}" method=post class=add-entry>
+            <dl>
+                <dt>Name:   <dd><input type=text size=30 name=title>
+                <dt>Email:  <dd><input type=email size=30 name=email>
+                <dt>Contact:<dd><input type=text size=30 name=contact>
+                <dt>Address:<dd><textarea name=address rows=3 cols=20></textarea>
+                <dd><input type=submit value=Submit>
+            </dl>
+        </form>-->
+    {% endif %}
+    <!--<ul class=entries>
+        {#
+        {% for entry in entries %}
+            <li><h2>{{entry.title}}</h2>{entry.text|safe}</li>
+        {% else %}
+            <li><em>No entries so far.</em></li>
+        {% endfor %}
+        #}
+    </ul>-->
+{% endblock %}
