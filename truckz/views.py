@@ -6,6 +6,7 @@ from flask import render_template, url_for, redirect, flash, session, request, a
 def index():
     return render_template('dashboard.html')
 
+@app.route('/login', methods=['POST', 'GET'])
 def login(user):
     error = None
     db = get_database()
@@ -28,6 +29,24 @@ def login(user):
             error='Username or password not found in database'
     return render_template('login.html', error=error)
 
+"""
+An alternative method that doesn't access the database
+and checks only against app.config keys
+"""
+@app.route('/simple_login', methods=['POST', 'GET'])
+def simple_login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != app.config['USERNAME']:
+            error = 'Invalid username'
+        elif request.form['password'] != app.config['PASSWORD']:
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            flash('Successfully logged in')
+            return redirect(url_for('index'))
+    return render_template('login.html', error=error)
+
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
@@ -36,7 +55,7 @@ def logout():
 
 @app.route('/trucks', defaults={'path':''})
 @app.route('/trucks/<path:path>')
-def show_trucks(path):
+def show_trucks(path, one=False):
     db = get_database()
     init_database()
     if path == '':
@@ -44,20 +63,20 @@ def show_trucks(path):
     else:
         rows = db.execute('select * from trucks where truck_id =(?)', path)
     trucks = rows.fetchall()
-    return jsonify(trucks)
+    return repr(trucks)
 
 @app.route('/owners', defaults={'path':''}, methods=['POST', 'GET'])
 @app.route('/owners/<path:path>')
 def show_owners(path):
     if not session.get('logged_in'):
-        return login('owners')
+        return simple_login()
     else:
         db = get_database()
         init_database()
         if path == '':
             rows = db.execute('select * from owners')
         elif path == 'login':
-            return login('owner')
+            return simple_login()
         else:
             rows = db.execute('select * from owners where owner_id=(?)', path)
         owners = rows.fetchall()
@@ -67,14 +86,14 @@ def show_owners(path):
 @app.route('/customers/<path:path>')
 def show_customers(path):
     if not session.get('logged_in'):
-        return login('customers')
+        return simple_login()
     else:
         db = get_database()
         init_database()
         if path == '':
             rows = db.execute('select * from customers')
         elif path == 'login':
-            return login('customer')
+            return simple_login()
         else:
             rows = db.execute('select * from customers where customers_id=(?)', path)
         customers = rows.fetchall()
@@ -82,4 +101,10 @@ def show_customers(path):
 
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
-    return 'Welcome to dashboard'
+    """
+    if session.get('logged_in'):
+        return 'Welcome! You are logged in'
+    else:
+        return 'Please login to proceed'
+    """
+    return redirect(url_for('index'))
