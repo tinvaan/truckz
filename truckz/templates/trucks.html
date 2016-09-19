@@ -4,20 +4,31 @@
     <div class=metanav></div>
     <table id="trucks_list" cellspacing="5" cellpadding="3">
         <tr>
+            <th>Reg Number</th>
             <th>Model</th>
             <th>Weight</th>
             <th>Volume</th>
         </tr>
         <tr>
+            <td>TN41-CD341</td>
             <td>Tata Ace</td>
             <td>1500</td>
             <td>1500</td>
         </tr>
         <tr>
+            <td>TN01-EA007</td>
             <td>Tata Mini</td>
             <td>2000</td>
             <td>1500</td>
         </tr>
+        {% for truck in trucks %}
+            <tr>
+                <td>{{truck.truck_registration_number}}
+                <td>{{truck.truck_model}}</td>
+                <td>{{truck.truck_weight}}</td>
+                <td>{{truck.truck_volume}}</td>
+            </tr>
+        {% endfor %}
     </table>
     <div class=metanav></div>
 {% endblock %}
