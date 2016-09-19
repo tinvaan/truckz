@@ -17,7 +17,7 @@ def login(user):
             rows = db.execute('select owner_auth_username and owner_auth_password from owners where owner_auth_username=? and owner_auth_password=?',
                             [request.form['username'], request.form['password']])
         elif user == 'customer':
-            rows = db.execute('select customer_auth_username, customer_auth_password from customers where customer_auth_username=(?) and customer_auth_password=(?)',
+            rows = db.execute('select customer_auth_username, customer_auth_password from customers where customer_auth_username=? and customer_auth_password=?',
                               [request.form['Username'], request.form['password']])
         else:
             abort(404, message={'User not found'})
@@ -56,17 +56,14 @@ def logout():
 @app.route('/trucks', defaults={'path':''})
 @app.route('/trucks/<path:path>')
 def show_trucks(path):
-    '''
     db = get_database()
     init_database()
     if path == '':
         rows = db.execute('select * from trucks')
     else:
-        rows = db.execute('select * from trucks where truck_id =(?)', path)
+        rows = db.execute('select * from trucks where truck_id =?', path)
     trucks = rows.fetchall()
-    return repr(trucks)
-    '''
-    return render_template('trucks.html')
+    return render_template('trucks.html', trucks=trucks)
 
 @app.route('/trucks/add', methods=['POST', 'GET'])
 def add_trucks():
@@ -101,7 +98,7 @@ def show_owners(path):
         elif path == 'login':
             return simple_login()
         else:
-            rows = db.execute('select * from owners where owner_id=(?)', path)
+            rows = db.execute('select * from owners where owner_id=?', path)
         owners = rows.fetchall()
         return jsonify(owners)
 
@@ -118,7 +115,7 @@ def show_customers(path):
         elif path == 'login':
             return simple_login()
         else:
-            rows = db.execute('select * from customers where customers_id=(?)', path)
+            rows = db.execute('select * from customers where customers_id=?', path)
         customers = rows.fetchall()
         return jsonify(customers)
 
