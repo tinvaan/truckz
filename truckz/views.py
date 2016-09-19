@@ -101,10 +101,12 @@ def show_customers(path):
 
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
-    """
-    if session.get('logged_in'):
-        return 'Welcome! You are logged in'
-    else:
-        return 'Please login to proceed'
-    """
     return redirect(url_for('index'))
+
+@app.route('/dashboard/profile/', methods=['POST', 'GET'])
+def profile_view():
+    return render_template('profile.html')
+
+@app.route('/dashboard/profile/edit', methods=['POST', 'GET'])
+def profile_edit():
+    return render_template('edit_profile.html')
