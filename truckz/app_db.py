@@ -5,8 +5,8 @@ from truckz import app
 app.config.update(dict(
     DATABASE = os.path.join(app.root_path, 'truckz.db'),
     SECRET_KEY = 'truckz.io',
-    USERNAME='admin',
-    PASSWORD='default'
+    USERNAME='root',
+    PASSWORD='123'
 ))
 
 def connect_database():
