@@ -6,6 +6,18 @@ from flask import render_template, url_for, redirect, flash, session, request, a
 def index():
     return render_template('dashboard.html')
 
+@app.route('/dashboard', methods=['POST', 'GET'])
+def dashboard():
+    return redirect(url_for('index'))
+
+@app.route('/dashboard/profile/', methods=['POST', 'GET'])
+def profile_view():
+    return render_template('profile.html')
+
+@app.route('/dashboard/profile/edit', methods=['POST', 'GET'])
+def profile_edit():
+    return render_template('edit_profile.html')
+
 @app.route('/login', methods=['POST', 'GET'])
 def login(user):
     error = None
@@ -118,15 +130,3 @@ def show_customers(path):
             rows = db.execute('select * from customers where customers_id=?', path)
         customers = rows.fetchall()
         return jsonify(customers)
-
-@app.route('/dashboard', methods=['POST', 'GET'])
-def dashboard():
-    return redirect(url_for('index'))
-
-@app.route('/dashboard/profile/', methods=['POST', 'GET'])
-def profile_view():
-    return render_template('profile.html')
-
-@app.route('/dashboard/profile/edit', methods=['POST', 'GET'])
-def profile_edit():
-    return render_template('edit_profile.html')
