@@ -1,0 +1,14 @@
+{% extends "dashboard.html" %}
+{% block trucks %}
+    <h4>Add Truck</h4>
+    <form action="{{url_for('add_trucks')}}" method=post class=add-entry>
+        <dl>
+            <dt>Model:      <dd><input type="text" size="30" name="model">
+            <dt>Weight:     <dd><input type="text" size="30" name="weight">
+            <dt>Volume:     <dd><input type="text" size="30" name="volume">
+            <dt>Location:   <dd><input type="text" size="30" name="location">
+            <dt>Reg. No:    <dd><input type="text" size="30" name="regno">
+            <dd><input type="submit" value="Submit">
+        </dl>
+    </form>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "dashboard.html" %}
+{% block bookings %}
+    <h4>Add Booking</h4>
+    <form action="{{url_for('add_trucks')}}" method=post class=add-entry>
+        <dl>
+            <dt>Pickup:     <dd><input type="text" size="30" name="req_pickup">
+            <dt>Dropoff:    <dd><input type="text" size="30" name="req_dropoff">
+            <dt>From:       <dd><input type="text" size="30" name="source_stop">
+            <dt>To:         <dd><input type="text" size="30" name="dest_stop">
+            <dt>Shipments:  <dd><input type="text" size="30" name="shipments">
+            <dd><input type="submit" value="Submit">
+        </dl>
+    </form>
+{% endblock %}

@@ -9,36 +9,29 @@
             <div class=metanav name="separator"></div>
             {% block profile %}{% endblock %}
         </div>
-        <h2>Journeys</h2>
+        <h2>Trucks</h2>
         <div name="content">
             <div class=metanav name="separator"></div>
-            <a href="{{url_for('index')}}"><input type=submit value="My Journeys"></input></a>
-            <a href="{{url_for('index')}}"><input type=submit value="Add Journey"></input></a>
+            <a href="{{url_for('show_trucks')}}"><input type=submit value="View Trucks"></input></a>
+            <a href="{{url_for('add_trucks')}}"><input type=submit value="Add Trucks"></input></a>
             <div class=metanav name="separator"></div>
+            {% block trucks %}{% endblock %}
         </div>
         <h2>Bookings</h2>
         <div name="content">
             <div class=metanav name="separator"></div>
-            <a href="{{url_for('index')}}"><input type=submit value="View Bookings"></input></a>
-            <a href="{{url_for('index')}}"><input type=submit value='New Booking'></input></a>
+            <a href="{{url_for('bookings')}}"><input type=submit value="My Bookings"></input></a>
+            <a href="{{url_for('add_bookings')}}"><input type=submit value='New Booking'></input></a>
             <div class=metanav name="separator"></div>
+            {% block bookings %}{% endblock %}
         </div>
-        <h2>Trucks</h2>
+        <h2>Journeys</h2>
         <div name="content">
             <div class=metanav name="separator"></div>
-            <a href="{{url_for('index')}}"><input type=submit value="View Trucks"></input></a>
-            <a href="{{url_for('index')}}"><input type=submit value="Add Trucks"></input></a>
-            <a href="{{url_for('index')}}"><input type=submit value="Remove Trucks"></input></a>
+            <a href="{{url_for('journeys')}}"><input type=submit value="My Journeys"></input></a>
+            <a href="{{url_for('add_journeys')}}"><input type=submit value="Add Journey"></input></a>
             <div class=metanav name="separator"></div>
+            {% block journeys %}{% endblock %}
         </div>
     {% endif %}
-    <!--<ul class=entries>
-        {#
-        {% for entry in entries %}
-            <li><h2>{{entry.title}}</h2>{entry.text|safe}</li>
-        {% else %}
-            <li><em>No entries so far.</em></li>
-        {% endfor %}
-        #}
-    </ul>-->
 {% endblock %}

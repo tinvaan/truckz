@@ -55,7 +55,8 @@ def logout():
 
 @app.route('/trucks', defaults={'path':''})
 @app.route('/trucks/<path:path>')
-def show_trucks(path, one=False):
+def show_trucks(path):
+    '''
     db = get_database()
     init_database()
     if path == '':
@@ -64,6 +65,28 @@ def show_trucks(path, one=False):
         rows = db.execute('select * from trucks where truck_id =(?)', path)
     trucks = rows.fetchall()
     return repr(trucks)
+    '''
+    return render_template('trucks.html')
+
+@app.route('/trucks/add', methods=['POST', 'GET'])
+def add_trucks():
+    return render_template('add_trucks.html')
+
+@app.route('/bookings', methods=['POST', 'GET'])
+def bookings():
+    return render_template('bookings.html')
+
+@app.route('/bookings/add', methods=['POST', 'GET'])
+def add_bookings():
+    return render_template('add_bookings.html')
+
+@app.route('/journeys', methods=['POST', 'GET'])
+def journeys():
+    return render_template('journeys.html')
+
+@app.route('/journeys/add', methods=['POST', 'GET'])
+def add_journeys():
+    return render_template('add_journeys.html')
 
 @app.route('/owners', defaults={'path':''}, methods=['POST', 'GET'])
 @app.route('/owners/<path:path>')
