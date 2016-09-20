@@ -8,7 +8,10 @@ def index():
 
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
-    return redirect(url_for('index'))
+    if session.get('logged_in'):
+        return redirect(url_for('index'))
+    else:
+        return login('customer')
 
 @app.route('/dashboard/profile/', methods=['POST', 'GET'])
 def profile_view():
@@ -26,24 +29,29 @@ def login(user):
 
     if request.method == 'POST':
         if user == 'owner':
-            rows = db.execute('select owner_auth_username and owner_auth_password from owners where owner_auth_username=? and owner_auth_password=?',
-                            [request.form['username'], request.form['password']])
+            rows = db.execute("select owner_auth_username and owner_auth_password from owners where owner_auth_username=:auth_user and owner_auth_password=:auth_pass", {"auth_user": request.form['username'], "auth_pass": request.form['password']})
         elif user == 'customer':
-            rows = db.execute('select customer_auth_username, customer_auth_password from customers where customer_auth_username=? and customer_auth_password=?',
-                              [request.form['Username'], request.form['password']])
+            rows = db.execute("select customer_auth_username, customer_auth_password from customers where customer_auth_username=:auth_user and customer_auth_password=:auth_pass", {"auth_user": request.form['username'], "auth_pass": request.form['password']})
         else:
             abort(404, message={'User not found'})
-        if rows > 0:
-            session['logged_in'] = True
-            flash('Login successful')
-            return redirect(url_for('index'))
+
+        row = rows.fetchone()
+        if not row is None:
+            if row['customer_auth_username'] == request.form['username'] and row['customer_auth_password'] == request.form['password']:
+                session['logged_in'] = True
+                session['user_name'] = request.form['username']
+                flash('Login successful')
+                return redirect(url_for('index'))
+            else:
+                error='Username or password not found in database'
         else:
-            error='Username or password not found in database'
+            error = 'Username or password not found in database'
     return render_template('login.html', error=error)
 
 """
 An alternative method that doesn't access the database
-and checks only against app.config keys
+and checks only against app.config keys.
+Can be used to partially debug your app even without a database
 """
 @app.route('/simple_login', methods=['POST', 'GET'])
 def simple_login():
@@ -101,14 +109,14 @@ def add_journeys():
 @app.route('/owners/<path:path>')
 def show_owners(path):
     if not session.get('logged_in'):
-        return simple_login()
+        return login('owner')
     else:
         db = get_database()
         init_database()
         if path == '':
             rows = db.execute('select * from owners')
         elif path == 'login':
-            return simple_login()
+            return login('owner')
         else:
             rows = db.execute('select * from owners where owner_id=?', path)
         owners = rows.fetchall()
@@ -118,14 +126,14 @@ def show_owners(path):
 @app.route('/customers/<path:path>')
 def show_customers(path):
     if not session.get('logged_in'):
-        return simple_login()
+        return login('customer')
     else:
         db = get_database()
         init_database()
         if path == '':
             rows = db.execute('select * from customers')
         elif path == 'login':
-            return simple_login()
+            return login('customer')
         else:
             rows = db.execute('select * from customers where customers_id=?', path)
         customers = rows.fetchall()
