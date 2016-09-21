@@ -15,11 +15,26 @@ def dashboard():
 
 @app.route('/dashboard/profile/', methods=['POST', 'GET'])
 def profile_view():
-    return render_template('profile.html')
+    auth_name = session.get('user_name')
+    db = get_database()
+    cur = db.execute('select * from customers where customer_auth_username=:auth_user', {"auth_user": auth_name})
+    details = cur.fetchone()
+    return render_template('profile.html', details = details)
 
 @app.route('/dashboard/profile/edit', methods=['POST', 'GET'])
 def profile_edit():
     return render_template('edit_profile.html')
+
+@app.route('/dashboard/profile/update', methods=['POST', 'GET'])
+def profile_update():
+    if not session.get('logged_in'):
+        abort(401, message="Session expired. Please login again")
+    db = get_database()
+    db.execute('update customers set customer_name=?, customer_email=?, customer_contact=?, customer_address=? where customer_auth_username=?',
+               [request.form['name'], request.form['email'], request.form['contact'], request.form['address'], session.get('user_name')])
+    db.commit()
+    flash('Profile updated')
+    return redirect(url_for('profile_view'))
 
 @app.route('/login', methods=['POST', 'GET'])
 def login(user):

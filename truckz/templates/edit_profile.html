@@ -1,9 +1,9 @@
 {% extends "dashboard.html" %}
 {% block profile %}
     <h4>Edit Profile</h4>
-    <form action="{{url_for('profile_edit')}}" method=post class=add-entry>
+    <form action="{{url_for('profile_update')}}" method=post class=add-entry>
         <dl>
-            <dt>Name:       <dd><input type=text size=30 name=title>
+            <dt>Name:       <dd><input type=text size=30 name=name>
             <dt>Email:      <dd><input type=email size=30 name=email>
             <dt>Contact:    <dd><input type=text size=30 name=contact>
             <dt>Address:    <dd><textarea name=address rows=3 cols=30></textarea>
