@@ -1,8 +1,8 @@
-/*pragma foreign_keys = on;*/
+pragma foreign_keys = on;
 
 drop table if exists trucks;
 create table trucks (
-    truck_id integer primary key /*autoincrement*/,
+    truck_id integer primary key autoincrement,
     truck_model text not null,
     truck_weight integer not null,
     truck_volume integer not null,

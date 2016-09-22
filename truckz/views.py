@@ -96,13 +96,25 @@ def show_trucks(path):
     if path == '':
         rows = db.execute('select * from trucks')
     else:
-        rows = db.execute('select * from trucks where truck_id =?', path)
+        rows = db.execute('select * from trucks where truck_model =?', path)
     trucks = rows.fetchall()
     return render_template('trucks.html', trucks=trucks)
 
+@app.route('/trucks/edit', methods=['POST', 'GET'])
+def edit_trucks():
+    return render_template('add_trucks.html')
+
 @app.route('/trucks/add', methods=['POST', 'GET'])
 def add_trucks():
-    return render_template('add_trucks.html')
+    if not session.get('logged_in'):
+        abort(401, message='Session expired. Please Login again')
+    db = get_database()
+    db.execute('insert into trucks(truck_model, truck_weight, truck_volume, truck_current_location, truck_registration_number) values(?,?,?,?,?)',
+               [ request.form['model'], request.form['weight'], request.form['volume'], request.form['location'], request.form['regno'] ])
+    db.commit()
+    flash('Model ' + request.form['model'] + ' added Successfully')
+    return redirect(url_for('show_trucks'))
+
 
 @app.route('/bookings', methods=['POST', 'GET'])
 def bookings():
