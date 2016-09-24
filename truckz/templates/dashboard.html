@@ -4,32 +4,32 @@
         <h2>Profile</h2>
         <div name="content">
             <div class=metanav name="separator"></div>
-            <a href="{{url_for('profile_view')}}"><input type=submit value="View Profile" /></a>
-            <a href="{{url_for('profile_edit')}}"><input type=submit value="Edit Profile"></input></a>
+            <a href="{{url_for('dashboard.profile_view')}}"><input type=submit value="View Profile" /></a>
+            <a href="{{url_for('dashboard.profile_edit')}}"><input type=submit value="Edit Profile"></input></a>
             <div class=metanav name="separator"></div>
             {% block profile %}{% endblock %}
         </div>
         <h2>Trucks</h2>
         <div name="content">
             <div class=metanav name="separator"></div>
-            <a href="{{url_for('show_trucks')}}"><input type=submit value="View Trucks"></input></a>
-            <a href="{{url_for('edit_trucks')}}"><input type=submit value="Add Trucks"></input></a>
+            <a href="{{url_for('trucks.show_trucks')}}"><input type=submit value="View Trucks"></input></a>
+            <a href="{{url_for('trucks.edit_trucks')}}"><input type=submit value="Add Trucks"></input></a>
             <div class=metanav name="separator"></div>
             {% block trucks %}{% endblock %}
         </div>
         <h2>Bookings</h2>
         <div name="content">
             <div class=metanav name="separator"></div>
-            <a href="{{url_for('bookings')}}"><input type=submit value="My Bookings"></input></a>
-            <a href="{{url_for('edit_bookings')}}"><input type=submit value='New Booking'></input></a>
+            <a href="{{url_for('bookings.bookings')}}"><input type=submit value="My Bookings"></input></a>
+            <a href="{{url_for('bookings.edit_bookings')}}"><input type=submit value='New Booking'></input></a>
             <div class=metanav name="separator"></div>
             {% block bookings %}{% endblock %}
         </div>
         <h2>Journeys</h2>
         <div name="content">
             <div class=metanav name="separator"></div>
-            <a href="{{url_for('journeys')}}"><input type=submit value="My Journeys"></input></a>
-            <a href="{{url_for('add_journeys')}}"><input type=submit value="Add Journey"></input></a>
+            <a href="{{url_for('journeys.journeys')}}"><input type=submit value="My Journeys"></input></a>
+            <a href="{{url_for('journeys.add_journeys')}}"><input type=submit value="Add Journey"></input></a>
             <div class=metanav name="separator"></div>
             {% block journeys %}{% endblock %}
         </div>
