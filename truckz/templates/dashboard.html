@@ -21,7 +21,7 @@
         <div name="content">
             <div class=metanav name="separator"></div>
             <a href="{{url_for('bookings')}}"><input type=submit value="My Bookings"></input></a>
-            <a href="{{url_for('add_bookings')}}"><input type=submit value='New Booking'></input></a>
+            <a href="{{url_for('edit_bookings')}}"><input type=submit value='New Booking'></input></a>
             <div class=metanav name="separator"></div>
             {% block bookings %}{% endblock %}
         </div>

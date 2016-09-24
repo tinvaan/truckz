@@ -92,7 +92,6 @@ def logout():
 @app.route('/trucks/<path:path>')
 def show_trucks(path):
     db = get_database()
-    init_database()
     if path == '':
         rows = db.execute('select * from trucks')
     else:
@@ -116,13 +115,37 @@ def add_trucks():
     return redirect(url_for('show_trucks'))
 
 
-@app.route('/bookings', methods=['POST', 'GET'])
+@app.route('/bookings')
 def bookings():
-    return render_template('bookings.html')
+    if not session.get('logged_in'):
+        abort(401, message='Session expired. Please login again')
+    db = get_database()
+
+    cust = db.execute("select customer_id from customers where customer_auth_username=:booking_owner_name", {"booking_owner_name":session.get('user_name')})
+    row = cust.fetchone()
+    cust_id = row[0]
+
+    cust_bookings = db.execute("select * from bookings where booking_owner_id=:customer_id", {"customer_id":cust_id})
+    c_bookings = cust_bookings.fetchall()
+    return render_template('bookings.html', bookings = c_bookings)
+
+@app.route('/bookings/edit')
+def edit_bookings():
+    return render_template('add_bookings.html')
 
 @app.route('/bookings/add', methods=['POST', 'GET'])
 def add_bookings():
-    return render_template('add_bookings.html')
+    print("source stop = " + request.form['source_stop'])
+    print("dest stop = " + request.form['dest_stop'])
+    print("requested pickup date = " + request.form['req_pickup'])
+    print("requested dropoff date = " + request.form['req_dropoff'])
+    print("shipments = " + request.form['shipments'])
+    db = get_database()
+    db.execute('insert into bookings(booking_source_stop, booking_destination_stop, booking_requested_pickup_date, booking_requested_dropoff_date, booking_shipment) values(?,?,?,?,?)',
+               [ request.form['source_stop'], request.form['dest_stop'], request.form['req_pickup'], request.form['req_dropoff'], request.form['shipments'] ])
+    db.commit()
+    flash('Your booking request has been lodged')
+    return redirect(url_for('bookings'))
 
 @app.route('/journeys', methods=['POST', 'GET'])
 def journeys():
@@ -139,7 +162,6 @@ def show_owners(path):
         return login('owner')
     else:
         db = get_database()
-        init_database()
         if path == '':
             rows = db.execute('select * from owners')
         elif path == 'login':
@@ -156,7 +178,6 @@ def show_customers(path):
         return login('customer')
     else:
         db = get_database()
-        init_database()
         if path == '':
             rows = db.execute('select * from customers')
         elif path == 'login':

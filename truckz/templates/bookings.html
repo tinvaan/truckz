@@ -10,13 +10,15 @@
             <th>To</th>
             <th>Shipment</th>
         </tr>
-        <tr>
-            <td>8/8/16</td>
-            <td>9/8/16</td>
-            <td>T.Nagar</td>
-            <td>Crompet</td>
-            <td>Furniture</td>
-        </tr>
+        {% for booking in bookings %}
+            <tr>
+                <td>{{booking.booking_source_stop}}</td>
+                <td>{{booking.booking_destination_stop}}</td>
+                <td>{{booking.booking_requested_pickup_date}}</td>
+                <td>{{booking.booking_requested_dropoff_date}}</td>
+                <td>{{booking.booking_shipment}}</td>
+            </tr>
+        {% endfor %}
     </table>
     <div class=metanav></div>
 {% endblock %}
