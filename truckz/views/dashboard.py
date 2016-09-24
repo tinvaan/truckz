@@ -21,11 +21,11 @@ def profile_view():
     db = get_database()
     cur = db.execute('select * from customers where customer_auth_username=:auth_user', {"auth_user": auth_name})
     details = cur.fetchone()
-    return render_template('profile.html', details = details)
+    return render_template('profile/profile.html', details = details)
 
 @mod.route('/dashboard/profile/edit', methods=['POST', 'GET'])
 def profile_edit():
-    return render_template('edit_profile.html')
+    return render_template('profile/edit_profile.html')
 
 @mod.route('/dashboard/profile/update', methods=['POST', 'GET'])
 def profile_update():

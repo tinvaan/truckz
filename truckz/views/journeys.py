@@ -4,7 +4,7 @@ mod = Blueprint('journeys', __name__)
 
 @mod.route('/journeys')
 def journeys():
-    return render_template('journeys.html')
+    return render_template('journeys/journeys.html')
 
 @mod.route('/journeys/edit')
 def edit_journeys():
@@ -12,4 +12,4 @@ def edit_journeys():
 
 @mod.route('/journeys/add', methods=['POST', 'GET'])
 def add_journeys():
-    return render_template('add_journeys.html')
+    return render_template('journeys/add_journeys.html')

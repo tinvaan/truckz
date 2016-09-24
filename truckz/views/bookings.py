@@ -15,11 +15,11 @@ def bookings():
 
     cust_bookings = db.execute("select * from bookings where booking_owner_id=:customer_id", {"customer_id":cust_id})
     c_bookings = cust_bookings.fetchall()
-    return render_template('bookings.html', bookings = c_bookings)
+    return render_template('bookings/bookings.html', bookings = c_bookings)
 
 @mod.route('/bookings/edit')
 def edit_bookings():
-    return render_template('add_bookings.html')
+    return render_template('bookings/add_bookings.html')
 
 @mod.route('/bookings/add', methods=['POST', 'GET'])
 def add_bookings():

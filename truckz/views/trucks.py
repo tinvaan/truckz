@@ -12,11 +12,11 @@ def show_trucks(path):
     else:
         rows = db.execute('select * from trucks where truck_model =?', path)
     trucks = rows.fetchall()
-    return render_template('trucks.html', trucks=trucks)
+    return render_template('trucks/trucks.html', trucks=trucks)
 
 @mod.route('/trucks/edit', methods=['POST', 'GET'])
 def edit_trucks():
-    return render_template('add_trucks.html')
+    return render_template('trucks/add_trucks.html')
 
 @mod.route('/trucks/add', methods=['POST', 'GET'])
 def add_trucks():
