@@ -55,7 +55,6 @@ create table shipments (
     shipment_owner_id integer,      /* The owner of a shipment is the one who places the bookings.
                                      * i.e a customer
                                      */
-    shipment_load integer not null,
     shipment_items text,
     shipment_dimensions text not null,
     shipment_approx_wieght integer not null,
@@ -87,8 +86,8 @@ insert into customers values(1, "harish", "navnit", "Harish", "harish@mail.com",
 insert into customers values(2, "mesut", "ozil", "MO", "ozil@afc.com", 1126163626, "");
 
 /* Insert dummy shipments data */
-insert into shipments values (1, 1, 500, "Booze", "150x150", 120);
-insert into shipments values (2, 2, 200, "Crockery", "20x20", 50);
+insert into shipments values (1, 1, "Booze", "150x150", 120);
+insert into shipments values (2, 2, "Crockery", "20x20", 50);
 
 /* Insert dummy bookings data */
 insert into bookings values(1, 1, "Pallavaram", "Mambalam", '2016-09-01', '2016-09-02', 1);
