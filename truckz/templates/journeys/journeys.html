@@ -4,17 +4,21 @@
     <div class=metanav></div>
     <table id="bookings_list" cellspacing="5" cellpadding="3">
         <tr>
-            <th>Requester</th>
+            <th>Provider ID</th>
+            <th>Requester ID</th>
             <th>Pickup</th>
             <th>Dropoff</th>
             <th>Cost</th>
         </tr>
-        <tr>
-            <td>Navnit</td>
-            <td>9/8/16</td>
-            <td>10/8/16</td>
-            <td>3000</td>
-        </tr>
+        {% for journey in journeys %}
+            <tr>
+                <td>{{journey.journey_provider_id}}</td>
+                <td>{{journey.journey_recipient_id}}</td>
+                <td>{{journey.journey_pickup_date}}</td>
+                <td>{{journey.journey_dropoff_date}}</td>
+                <td>{{journey.journey_rate}}</td>
+            </tr>
+        {% endfor %}
     </table>
     <div class=metanav></div>
 {% endblock %}

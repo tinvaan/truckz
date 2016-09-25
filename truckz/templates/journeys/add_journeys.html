@@ -3,10 +3,10 @@
     <h4>Add Journey</h4>
     <form action="{{url_for('journeys.add_journeys')}}" method=post class=add-entry>
         <dl>
-            <dt>Requested By:       <dd><input type="text" size="20" name="requester_name">
-            <dt>Proposed Pickup:    <dd><input type="text" size="20" name="offered_pickup">
-            <dt>Proposed Dropoff:   <dd><input type="text" size="20" name="offered_dropoff">
-            <dt>Estimated Cost:     <dd><input type="text" size="20" name="est_cost">
+            <dt>Requester ID:       <dd><input type="text" size="20" name="recipient_id">
+            <dt>Pickup Date:        <dd><input type="text" size="20" name="pickup_date">
+            <dt>Dropoff Date:       <dd><input type="text" size="20" name="dropoff_date">
+            <dt>Estimated Cost:     <dd><input type="text" size="20" name="rate">
             <dd><input type="submit" value="Submit">
         </dl>
     </form>
