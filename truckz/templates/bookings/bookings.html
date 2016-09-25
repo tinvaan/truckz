@@ -10,15 +10,19 @@
             <th>To</th>
             <th>Shipment</th>
         </tr>
-        {% for booking in bookings %}
-            <tr>
-                <td>{{booking.booking_source_stop}}</td>
-                <td>{{booking.booking_destination_stop}}</td>
-                <td>{{booking.booking_requested_pickup_date}}</td>
-                <td>{{booking.booking_requested_dropoff_date}}</td>
-                <td>{{booking.booking_shipment}}</td>
-            </tr>
-        {% endfor %}
+        {% if error %}
+            <p class=error><strong>Note: </strong>{{error}}</p>
+        {% else %}
+            {% for booking in bookings %}
+                <tr>
+                    <td>{{booking.booking_source_stop}}</td>
+                    <td>{{booking.booking_destination_stop}}</td>
+                    <td>{{booking.booking_requested_pickup_date}}</td>
+                    <td>{{booking.booking_requested_dropoff_date}}</td>
+                    <td>{{booking.booking_shipment}}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
     </table>
     <div class=metanav></div>
 {% endblock %}

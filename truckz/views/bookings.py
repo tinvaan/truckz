@@ -5,17 +5,22 @@ mod = Blueprint('bookings', __name__)
 
 @mod.route('/bookings')
 def bookings():
+    error = None
     if not session.get('logged_in'):
         abort(401, message='Session expired. Please login again')
     db = get_database()
 
     cust = db.execute("select customer_id from customers where customer_auth_username=:booking_owner_name", {"booking_owner_name":session.get('user_name')})
     row = cust.fetchone()
-    cust_id = row[0]
 
-    cust_bookings = db.execute("select * from bookings where booking_owner_id=:customer_id", {"customer_id":cust_id})
-    c_bookings = cust_bookings.fetchall()
-    return render_template('bookings/bookings.html', bookings = c_bookings)
+    if row is not None:
+        cust_id = row[0]
+        cust_bookings = db.execute("select * from bookings where booking_owner_id=:customer_id", {"customer_id":cust_id})
+        c_bookings = cust_bookings.fetchall()
+        return render_template('bookings/bookings.html', bookings=c_bookings, error=error)
+    else:
+        error = 'You have made no bookings so far'
+        return render_template('bookings/bookings.html', error=error)
 
 @mod.route('/bookings/all')
 def all_bookings():
