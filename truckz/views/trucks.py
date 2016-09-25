@@ -23,8 +23,21 @@ def add_trucks():
     if not session.get('logged_in'):
         abort(401, message='Session expired. Please Login again')
     db = get_database()
-    db.execute('insert into trucks(truck_model, truck_weight, truck_volume, truck_current_location, truck_registration_number) values(?,?,?,?,?)',
-               [ request.form['model'], request.form['weight'], request.form['volume'], request.form['location'], request.form['regno'] ])
+    db.execute(\
+        'insert into trucks(\
+            truck_model,\
+            truck_weight,\
+            truck_volume,\
+            truck_current_location,\
+            truck_registration_number\
+        ) values(?,?,?,?,?)',[\
+            request.form['model'],\
+            request.form['weight'],\
+            request.form['volume'],\
+            request.form['location'],\
+            request.form['regno']\
+        ]\
+    )
     db.commit()
     flash('Model ' + request.form['model'] + ' added Successfully')
     return redirect(url_for('trucks.show_trucks'))

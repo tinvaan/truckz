@@ -19,7 +19,9 @@ def dashboard():
 def profile_view():
     auth_name = session.get('user_name')
     db = get_database()
-    cur = db.execute('select * from customers where customer_auth_username=:auth_user', {"auth_user": auth_name})
+    cur = db.execute(\
+        'select * from customers where customer_auth_username=:auth_user', {"auth_user": auth_name}\
+    )
     details = cur.fetchone()
     return render_template('profile/profile.html', details = details)
 
@@ -32,8 +34,16 @@ def profile_update():
     if not session.get('logged_in'):
         abort(401, message="Session expired. Please login again")
     db = get_database()
-    db.execute('update customers set customer_name=?, customer_email=?, customer_contact=?, customer_address=? where customer_auth_username=?',
-               [request.form['name'], request.form['email'], request.form['contact'], request.form['address'], session.get('user_name')])
+    db.execute(\
+        'update customers set customer_name=?, customer_email=?, customer_contact=?, customer_address=?\
+         where customer_auth_username=?', [\
+             request.form['name'],\
+             request.form['email'],\
+             request.form['contact'],\
+             request.form['address'],\
+             session.get('user_name')\
+        ]\
+    )
     db.commit()
     flash('Profile updated')
     return redirect(url_for('dashboard.profile_view'))

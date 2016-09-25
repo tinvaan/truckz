@@ -12,9 +12,17 @@ def login(user):
 
     if request.method == 'POST':
         if user == 'owner':
-            rows = db.execute("select owner_auth_username, owner_auth_password from owners where owner_auth_username=:auth_user and owner_auth_password=:auth_pass", {"auth_user": request.form['username'], "auth_pass": request.form['password']})
+            rows = db.execute(\
+                'select owner_auth_username, owner_auth_password from owners\
+                 where owner_auth_username=:auth_user and owner_auth_password=:auth_pass',\
+                {'auth_user': request.form['username'], 'auth_pass': request.form['password']}\
+            )
         elif user == 'customer':
-            rows = db.execute("select customer_auth_username, customer_auth_password from customers where customer_auth_username=:auth_user and customer_auth_password=:auth_pass", {"auth_user": request.form['username'], "auth_pass": request.form['password']})
+            rows = db.execute(
+                'select customer_auth_username, customer_auth_password from customers\
+                 where customer_auth_username=:auth_user and customer_auth_password=:auth_pass',\
+                {"auth_user": request.form['username'], "auth_pass": request.form['password']}\
+            )
         else:
             abort(404, message={'User not found'})
 
