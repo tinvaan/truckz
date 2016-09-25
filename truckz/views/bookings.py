@@ -6,7 +6,7 @@ mod = Blueprint('bookings', __name__)
 def get_booking_owner_id():
     db = get_database()
     rows = db.execute(\
-        'select customer_id from customers where customer_auth_username=?', session.get('user_name')\
+        'select customer_id from customers where customer_auth_username=?', [session.get('user_name')]\
     )
     row = rows.fetchone()
     return row['customer_id']
@@ -21,7 +21,7 @@ def bookings():
 
     if get_booking_owner_id() is not None:
         cur = db.execute(\
-            'select * from bookings where booking_owner_id=:?', get_booking_owner_id()\
+            'select * from bookings where booking_owner_id=?', [get_booking_owner_id()]\
         )
         c_bookings = cur.fetchall()
         return render_template('bookings/bookings.html', bookings=c_bookings, error=error)
