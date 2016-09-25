@@ -61,11 +61,13 @@ create table shipments (
 drop table if exists journey_plan;
 create table journey_plan (
     journey_id integer primary key autoincrement,
-    journey_customer_id integer,
+    journey_recipient_id integer,       /* The recipient of a journey is always a customer */
+    journey_provider_id integer,        /* Journeys are proposed/provided by owners */
     journey_rate integer not null,
     journey_pickup_date date not null,
     journey_dropoff_date date not null,
-    foreign key(journey_customer_id) references customers(customer_id)
+    foreign key(journey_recipient_id) references customers(customer_id),
+    foreign key(journey_provider_id) references owners(owner_id)
 );
 
 /** Insert dummy trucks data */
@@ -85,4 +87,9 @@ insert into shipments values (1, 1, 500, "Booze", "150x150", 120);
 insert into shipments values (2, 2, 200, "Crockery", "20x20", 50);
 
 /* Insert dummy bookings data */
-insert into bookings values(1, 1, "Pallavaram", "Mambalam", '2016-09-01 00:00:00', '2016-09-02 00:00:00', 1);
+insert into bookings values(1, 1, "Pallavaram", "Mambalam", '2016-09-01', '2016-09-02', 1);
+
+/* Insert dummy journey plans */
+insert into journey_plan values(1, 1, 2, 1000, '2016-09-01', '2016-09-02');
+insert into journey_plan values(2, 2, 1, 3000, '2016-09-01', '2016-09-02');
+insert into journey_plan values(3, 2, 2, 2000, '2016-09-01', '2016-09-02');
