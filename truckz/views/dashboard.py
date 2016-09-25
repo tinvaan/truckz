@@ -13,7 +13,7 @@ def dashboard():
     if session.get('logged_in'):
         return redirect(url_for('index'))
     else:
-        return login('customer')
+        return login(session.get('user_type'))
 
 @mod.route('/dashboard/profile/', methods=['POST', 'GET'])
 def profile_view():
