@@ -37,7 +37,9 @@ create table customers (
 drop table if exists bookings;
 create table bookings (
     booking_id integer primary key autoincrement,
-    booking_owner_id integer,
+    booking_owner_id integer,       /* Only customers can place bookings.
+                                     * Hence, the owner of a booking is always a customer
+                                     */
     booking_source_stop text not null,
     booking_destination_stop text not null,
     booking_requested_pickup_date date,
@@ -50,7 +52,9 @@ create table bookings (
 drop table if exists shipments;
 create table shipments (
     shipment_id integer primary key autoincrement,
-    shipment_owner_id integer,
+    shipment_owner_id integer,      /* The owner of a shipment is the one who places the bookings.
+                                     * i.e a customer
+                                     */
     shipment_load integer not null,
     shipment_items text,
     shipment_dimensions text not null,
