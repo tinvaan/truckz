@@ -10,13 +10,13 @@ def bookings():
         abort(401, message='Session expired. Please login again')
     db = get_database()
 
-    cust = db.execute("select customer_id from customers where customer_auth_username=:booking_owner_name", {"booking_owner_name":session.get('user_name')})
-    row = cust.fetchone()
+    customers = db.execute("select customer_id from customers where customer_auth_username=:booking_owner_name", {"booking_owner_name":session.get('user_name')})
+    customer_row = customers.fetchone()
 
-    if row is not None:
-        cust_id = row[0]
-        cust_bookings = db.execute("select * from bookings where booking_owner_id=:customer_id", {"customer_id":cust_id})
-        c_bookings = cust_bookings.fetchall()
+    if customer_row is not None:
+        customer_id = customer_row['customer_id']
+        customer_bookings = db.execute("select * from bookings where booking_owner_id=:c_id", {"c_id":customer_id})
+        c_bookings = customer_bookings.fetchall()
         return render_template('bookings/bookings.html', bookings=c_bookings, error=error)
     else:
         error = 'You have made no bookings so far'
@@ -35,9 +35,15 @@ def edit_bookings():
 
 @mod.route('/bookings/add', methods=['POST', 'GET'])
 def add_bookings():
-    db = get_database()
-    db.execute('insert into bookings(booking_source_stop, booking_destination_stop, booking_requested_pickup_date, booking_requested_dropoff_date, booking_shipment) values(?,?,?,?,?)',
-               [ request.form['source_stop'], request.form['dest_stop'], request.form['req_pickup'], request.form['req_dropoff'], request.form['shipments'] ])
-    db.commit()
-    flash('Your booking request has been lodged')
-    return redirect(url_for('bookings.bookings'))
+    if not session.get('logged_in'):
+        abort(401, message='Session expired. Please login again')
+    else:
+        if not session.get('user_type') == 'customer':
+            abort(401, message='Access denied')
+        else:
+            db = get_database()
+            db.execute('insert into bookings(booking_source_stop, booking_destination_stop, booking_requested_pickup_date, booking_requested_dropoff_date, booking_shipment) values(?,?,?,?,?)',
+                    [ request.form['source_stop'], request.form['dest_stop'], request.form['req_pickup'], request.form['req_dropoff'], request.form['shipments'] ])
+            db.commit()
+            flash('Your booking request has been lodged')
+            return redirect(url_for('bookings.bookings'))
