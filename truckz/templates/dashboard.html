@@ -21,6 +21,9 @@
         <div name="content">
             <div class=metanav name="separator"></div>
             <a href="{{url_for('bookings.bookings')}}"><input type=submit value="My Bookings"></input></a>
+            {% if session.user_type=='owner' %}
+                <a href="{{url_for('bookings.all_bookings')}}"><input type=submit value="All Bookings"></input></a>
+            {% endif %}
             <a href="{{url_for('bookings.edit_bookings')}}"><input type=submit value='New Booking'></input></a>
             <div class=metanav name="separator"></div>
             {% block bookings %}{% endblock %}

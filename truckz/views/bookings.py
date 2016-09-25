@@ -17,6 +17,13 @@ def bookings():
     c_bookings = cust_bookings.fetchall()
     return render_template('bookings/bookings.html', bookings = c_bookings)
 
+@mod.route('/bookings/all')
+def all_bookings():
+    db = get_database()
+    rows = db.execute('select * from bookings')
+    a_bookings = rows.fetchall()
+    return render_template('bookings/bookings.html', bookings = a_bookings)
+
 @mod.route('/bookings/edit')
 def edit_bookings():
     return render_template('bookings/add_bookings.html')
