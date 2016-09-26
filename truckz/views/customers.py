@@ -4,6 +4,12 @@ from flask import Blueprint, session, request, redirect, jsonify
 
 mod = Blueprint('customers', __name__)
 
+def get_customer_id():
+    db = get_database()
+    cur = db.execute('select customer_id from customers where customer_auth_username=?', [session.get('user_name')])
+    row = cur.fetchone()
+    return row['customer_id']
+
 @mod.route('/customers', defaults={'path':''}, methods=['POST', 'GET'])
 @mod.route('/customers/<path:path>')
 def show_customers(path):

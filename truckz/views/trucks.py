@@ -3,6 +3,24 @@ from truckz import get_database
 
 mod = Blueprint('trucks', __name__)
 
+def get_truck_weight(t_id):
+    db = get_database()
+    cur = db.execute('select truck_weight from trucks where truck_id = ?', [t_id])
+    if cur is not None:
+        row = cur.fetchone()
+        return row['truck_weight']
+    else:
+        return -1
+
+def get_truck_volume():
+    db = get_database()
+    cur = db.execute('select truck_volume from trucks where truck_id = ?', [t_id])
+    if cur is not None:
+        row = cur.fetchone()
+        return row['truck_volume']
+    else:
+        return -1
+
 @mod.route('/trucks', defaults={'path':''})
 @mod.route('/trucks/<path:path>')
 def show_trucks(path):
