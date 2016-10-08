@@ -17,7 +17,7 @@ To access the trucks later,
     for truck in get_trucks_owned():
         truck['truck_id']
 '''
-def get_trucks_owned()
+def get_trucks_owned():
     db = get_database()
     cur = db.execute('select owner_trucks from owners where owner_id=?', [get_owner_id()])
     rows = cur.fetchall()
