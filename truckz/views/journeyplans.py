@@ -76,7 +76,7 @@ def partial_journey_wrapper(s_volume):
 def partial_journey_trucks(index, s_volume, temp=[]):
     if not index is None:
         if index == 0:
-            if volumes[index] == summation:
+            if volumes[index] == s_volume:
                 temp.append(s_volume)
                 return temp
             else:
