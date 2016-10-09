@@ -11,10 +11,18 @@ volumes = {}
 trucks_volumes = {}
 
 def get_truck_from_volume():
-    return 'work in progress'
+    t_ids = get_truck_id_from_volume(v)
+    db = get_database()
+    curr_ trucks = []
+    for t in range t_ids:
+        truck = get_truck(t)
+        curr_trucks.append(truck)
+    return curr_trucks
 
-def get_truck_id_from_volume():
-    return 'work in progress'
+def get_truck_id_from_volume(v):
+    populate_trucks_with_volumes()
+    truck_ids = get_truck_id(v)
+    return truck_ids
 
 '''
 Returns the id of the shipment for a booking
@@ -44,7 +52,7 @@ truck volumes and truck id's.
 def extract_truck_volumes():
     for i in range(0, len(trucks_volumes)):
         volumes.append(trucks_volumes[i][1])
-    volumes = list(volume)
+    volumes = list(volumes)
 
 def truck_for_shipment(s_id):
     s_volume = get_shipment_volume(s_id)

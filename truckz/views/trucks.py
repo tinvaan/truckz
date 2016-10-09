@@ -3,6 +3,21 @@ from truckz import get_database
 
 mod = Blueprint('trucks', __name__)
 
+def get_truck(t_id):
+    db = get_database()
+    curr = db.execute('select * from trucks where truck_id = ?', [t_id])
+    truck = curr.fetchone()
+    return truck
+
+'''
+Returns truck_id's of all trucks with given volume
+'''
+def get_truck_id(t_volume):
+    db = get_database()
+    curr = db.execute('select truck_id from trucks where truck_volume = ?', [t_volume])
+    v_trucks = curr.fetchall()
+    return v_trucks
+
 def get_truck_weight(t_id):
     db = get_database()
     cur = db.execute('select truck_weight from trucks where truck_id = ?', [t_id])
@@ -12,7 +27,7 @@ def get_truck_weight(t_id):
     else:
         return -1
 
-def get_truck_volume():
+def get_truck_volume(t_id):
     db = get_database()
     cur = db.execute('select truck_volume from trucks where truck_id = ?', [t_id])
     if cur is not None:
