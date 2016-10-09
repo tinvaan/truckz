@@ -61,12 +61,21 @@ def truck_for_shipment(s_id):
         return None
     else:
 
+'''
+Return the volume of the truck that is closest
+to and lesser than the volume of the shipment.
+'''
 def closest_matching_truck_volume(v, s_volume):
+    v_list = v
+
     if len(v) == 1:
         if v[0] <= s_volume:
             return get_truck_from_volume(v[0])
         else:
-            return None
+            if v_list(v_list.index(v[0])+1) >= len(v_list):
+                return None
+            else:
+                return v_list(v_list.index(v[0]+1))
 
     if s_volume < v[int(len(v)/2)]:
         v = v[0:int(len(v/2))]
