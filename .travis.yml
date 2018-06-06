@@ -8,5 +8,6 @@ env:
 install:
     - pip install flask
 
-script:
-    - python runserver.py
+#script:
+    #    - python runserver.py
+    #    - curl http://127.0.0.1:5000
